@@ -1,24 +1,28 @@
 ﻿using System;
+using DiscreteMath.MultiSet;
+using DiscreteMath.Set;
 
-namespace DiscreteMath
+namespace DMath
 {
-    public class Program
+    class Program
     {
         static void Main(string[] args)
-        {
+        {  
+            /*
             Console.WriteLine("-----Sets-----");
-            ShowcaseMultiSets();
-            Console.WriteLine();
-            Console.WriteLine("---Multiset---");
             ShowcaseSets();
+            Console.WriteLine();
+            */
+            Console.WriteLine("---Multiset---");
+            ShowcaseMultiSets();
             
             Console.ReadLine();
         }
 
         private static void ShowcaseSets()
         {
-            var setA = new Set.Set(new[] {0, 0, 1, 2, 3, 4});
-            var setB = new Set.Set(new[] {2, 3, 4, 4, 5, 6, 7});
+            var setA = new Set(new[] {0, 0, 1, 2, 3, 4});
+            var setB = new Set(new[] {2, 3, 4, 4, 5, 6, 7});
             Console.WriteLine($"SetA: {setA}");
             Console.WriteLine($"SetB: {setB}");
 
@@ -39,8 +43,8 @@ namespace DiscreteMath
 
         private static void ShowcaseMultiSets()
         {
-            var setA = new MultiSet.MultiSet(new[] {0, 0, 1, 2, 3, 4});
-            var setB = new MultiSet.MultiSet(new[] {2, 3, 4, 4, 5, 6, 7});
+            var setA = new MultiSet(new[] {0, 0, 1, 2, 3, 4, 4});
+            var setB = new MultiSet(new[] {2, 3, 4, 4, 4, 5, 6, 7});
             Console.WriteLine($"SetA: {setA}");
             Console.WriteLine($"SetB: {setB}");
 
