@@ -88,8 +88,8 @@ namespace DiscreteMath.MultiSet
                     continue;
                 }
 
-                var intances = _dic[key] >= setB.InstancesOfMembers(_dic[key]) ? _dic[key] :  setB.InstancesOfMembers(_dic[key]);
-                for (int i = 0; i < intances; i++)
+                var instances = _dic[key] >= setB.InstancesOfMember(_dic[key]) ? _dic[key] :  setB.InstancesOfMember(_dic[key]);
+                for (var i = 0; i < instances; i++)
                 {
                     intersect.Add(key);  
                 }
@@ -103,7 +103,7 @@ namespace DiscreteMath.MultiSet
             return ToArray().Length;
         }
 
-        public int InstancesOfMembers(int member)
+        public int InstancesOfMember(int member)
         {
             return _dic.ContainsKey(member) ? _dic[member] : 0;
         }

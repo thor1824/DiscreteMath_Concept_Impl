@@ -3,7 +3,20 @@ using System.Linq;
 
 namespace DiscreteMath.Set
 {
-    public class BinaryTree
+    public interface IBinaryTree
+    {
+        bool Add(int value);
+        Node Find(int value);
+        void Remove(int value);
+        int GetTreeDepth();
+        void TraversePreOrder(Node parent);
+        void TraverseInOrder(Node parent);
+        void TraversePostOrder(Node parent);
+        int[] ToArray();
+        int[] TraverseInOrderAndReturn(Node parent);
+    }
+
+    public class BinaryTree : IBinaryTree
     {
         private Node Root { get; set; }
 
