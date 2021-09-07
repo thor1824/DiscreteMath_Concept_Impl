@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using DMath.Propositions;
 using DMath.Propositions.Abstracts;
 using DMath.Sets;
@@ -33,6 +34,7 @@ namespace DMath
                 new ValueProposition("b")
             );
 
+            Console.WriteLine();
             DoAndPrintProposition(states, andProposition);
 
             // OR
@@ -41,11 +43,13 @@ namespace DMath
                 new ValueProposition("b")
             );
 
+            Console.WriteLine();
             DoAndPrintProposition(states, orProposition);
 
             // Not
             var notProposition = new NotProposition(orProposition);
 
+            Console.WriteLine();
             DoAndPrintProposition(states, notProposition);
 
             // Implies
@@ -56,7 +60,7 @@ namespace DMath
                 ),
                 new ValueProposition("c")
             );
-
+            Console.WriteLine();
             DoAndPrintProposition(states, impliesProposition);
 
             // OR
@@ -65,8 +69,10 @@ namespace DMath
                 new ValueProposition("b")
             );
 
+            Console.WriteLine();
             DoAndPrintProposition(states, xorProposition);
 
+            // tautology
             var tautology = new EquivalenceProposition(
                 new ImpliesProposition(
                     new ValueProposition("p"),
@@ -77,17 +83,86 @@ namespace DMath
                     new NotProposition(new ValueProposition("p"))
                 )
             );
+            
+            Console.WriteLine();
             DoAndPrintProposition(new List<IDictionary<string, bool>>(), tautology);
+
+
+            // Satisfiable
             var unsatisfiable = new AndProposition(
                 new ValueProposition("p"),
                 new NotProposition(new ValueProposition("p"))
             );
+            
+            Console.WriteLine();
             DoAndPrintProposition(new List<IDictionary<string, bool>>(), unsatisfiable);
+
+            // tautology speed
+            var (test1, v1) = buildProposition(12);
+            var (test2, v2) = buildProposition(16);
+            // var (test3, v3) = buildProposition(20);
+            var sw = new Stopwatch();
+            Console.WriteLine($"\n---SpeedTest 1 with {v1} Variables");
+            sw.Start();
+            DoAndPrintProposition(new List<IDictionary<string, bool>>(), test1);
+            sw.Stop();
+            Console.WriteLine($"---SpeedTest 1 took {sw.ElapsedMilliseconds/ 1000.0} secs");
+            sw.Reset();
+            Console.WriteLine($"\n---SpeedTest 2 with {v2} Variables");
+            sw.Start();
+            DoAndPrintProposition(new List<IDictionary<string, bool>>(), test2);
+            sw.Stop();
+            Console.WriteLine($"---SpeedTest 2 took {sw.ElapsedMilliseconds/ 1000.0} secs");
+            /*
+            sw.Reset();
+            Console.WriteLine($"\n---SpeedTest 3 with {v3} Variables");
+            sw.Start();
+            DoAndPrintProposition(new List<IDictionary<string, bool>>(), test3);
+            sw.Stop();
+            Console.WriteLine($"---SpeedTest 3 took {sw.ElapsedMilliseconds / 1000.0} secs");
+            */
+        }
+
+        public static (BaseProposition prop, int nVariable) buildProposition(int count = 10)
+        {
+            BaseProposition super = null;
+            var loops = count % 4 == 0 ? count / 4 : count / 4 + 1;
+            for (int i = 0; i < loops; i++)
+            {
+                var part1 = new ImpliesProposition(
+                    new ValueProposition("a" + i),
+                    new ValueProposition("b" + i)
+                );
+                var part2 = new ImpliesProposition(
+                    new NotProposition(new ValueProposition("c" + i)),
+                    new NotProposition(new ValueProposition("d" + i))
+                );
+
+                if (i == 0)
+                {
+                    super = new AndProposition(part1, part2);
+                    continue;
+                }
+
+                if (i % 2 == 0)
+                {
+                    var temp1 = new ImpliesProposition(part1, part2);
+                    var temp = new OrProposition(super, temp1);
+                    super = temp;
+                }
+                else
+                {
+                    var temp1 = new AndProposition(part1, part2);
+                    var temp = new XorProposition(temp1, super);
+                    super = temp;
+                }
+            }
+
+            return (super, loops * 4);
         }
 
         private static void DoAndPrintProposition(List<IDictionary<string, bool>> states, BaseProposition proposition)
         {
-            Console.WriteLine();
             Console.WriteLine(proposition.GetType().Name + ": " + proposition.ToStringVariable());
             Console.WriteLine("Is Tautology: " + proposition.IsTautology());
             Console.WriteLine("Is Satisfiable: " + proposition.IsSatisfiable());

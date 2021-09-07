@@ -40,7 +40,7 @@ namespace DMath.Propositions.Abstracts
         private static IEnumerable<Dictionary<string, bool>> GetTruthTable(IReadOnlyCollection<string> variables)
         {
             var truthTable = new List<Dictionary<string, bool>>();
-            var rows = (int) Math.Pow(2, variables.Count);
+            var rows =  Math.Pow(2, variables.Count);
             var interval = 1;
             var start = false;
             foreach (var variable in variables)
