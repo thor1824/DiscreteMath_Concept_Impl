@@ -1,11 +1,11 @@
-﻿using System;
-using DMath.Propositions.Abstracts;
+﻿using DMath.Propositions.Abstracts;
 
 namespace DMath.Propositions
 {
     public class AndProposition : BinaryProposition
-    {   
-        public AndProposition(BaseProposition leftProposition, BaseProposition rightProposition) : base(leftProposition, rightProposition)
+    {
+        public AndProposition(BaseProposition leftProposition, BaseProposition rightProposition) : base(leftProposition,
+            rightProposition)
         {
         }
 

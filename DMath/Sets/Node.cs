@@ -1,4 +1,4 @@
-﻿namespace DiscreteMath.Set
+﻿namespace DMath.Sets
 {
     public class Node
     {

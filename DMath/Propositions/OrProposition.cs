@@ -3,8 +3,9 @@
 namespace DMath.Propositions
 {
     public class OrProposition : BinaryProposition
-    {   
-        public OrProposition(BaseProposition leftProposition, BaseProposition rightProposition) : base(leftProposition, rightProposition)
+    {
+        public OrProposition(BaseProposition leftProposition, BaseProposition rightProposition) : base(leftProposition,
+            rightProposition)
         {
         }
 
@@ -12,12 +13,12 @@ namespace DMath.Propositions
         {
             return LeftProposition.CalculateValue() || RightProposition.CalculateValue();
         }
-        
+
         public override string ToString()
         {
             return $"({LeftProposition} OR {RightProposition})";
         }
-        
+
         public override string ToStringVariable()
         {
             return $"({LeftProposition.ToStringVariable()} OR {RightProposition.ToStringVariable()})";

@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using DiscreteMath.MultiSet;
-using DiscreteMath.Set;
 using DMath.Propositions;
 using DMath.Propositions.Abstracts;
+using DMath.Sets;
 
 namespace DMath
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            // ShowcaseSets();
-            // ShowcaseMultiSets();
+            ShowcaseSets();
+            ShowcaseMultiSets();
             ShowcasePropositions();
 
             Console.ReadLine();
@@ -93,9 +92,7 @@ namespace DMath
             Console.WriteLine("Is Tautology: " + proposition.IsTautology());
             Console.WriteLine("Is Satisfiable: " + proposition.IsSatisfiable());
             foreach (var state in states)
-            {
                 Console.WriteLine($"{proposition.ToString(state)} is {proposition.Evaluate(state)}");
-            }
         }
 
         private static void ShowcaseSets()

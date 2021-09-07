@@ -1,28 +1,16 @@
 ﻿using System;
 using System.Linq;
 
-namespace DiscreteMath.Set
+namespace DMath.Sets
 {
-    public interface IBinaryTree
-    {
-        bool Add(int value);
-        Node Find(int value);
-        void Remove(int value);
-        int GetTreeDepth();
-        void TraversePreOrder(Node parent);
-        void TraverseInOrder(Node parent);
-        void TraversePostOrder(Node parent);
-        int[] ToArray();
-        int[] TraverseInOrderAndReturn(Node parent);
-    }
-
+    
     public class BinaryTree : IBinaryTree
     {
         private Node Root { get; set; }
 
         public bool Add(int value)
         {
-            Node before = null, after = this.Root;
+            Node before = null, after = Root;
 
             while (after != null)
             {
@@ -32,17 +20,17 @@ namespace DiscreteMath.Set
                 else if (value > after.Data) //Is new node in right tree?
                     after = after.RightNode;
                 else
-                {
                     //Exist same value
                     return false;
-                }
             }
 
-            Node newNode = new Node();
+            var newNode = new Node();
             newNode.Data = value;
 
-            if (this.Root == null)//Tree ise empty
-                this.Root = newNode;
+            if (Root == null) //Tree ise empty
+            {
+                Root = newNode;
+            }
             else
             {
                 if (value < before.Data)
@@ -56,76 +44,17 @@ namespace DiscreteMath.Set
 
         public Node Find(int value)
         {
-            return this.Find(value, this.Root);
+            return Find(value, Root);
         }
 
         public void Remove(int value)
         {
-            this.Root = Remove(this.Root, value);
-        }
-
-        private Node Remove(Node parent, int key)
-        {
-            if (parent == null) return parent;
-
-            if (key < parent.Data) parent.LeftNode = Remove(parent.LeftNode, key);
-            else if (key > parent.Data)
-                parent.RightNode = Remove(parent.RightNode, key);
-
-            // if value is same as parent's value, then this is the node to be deleted  
-            else
-            {
-                // node with only one child or no child  
-                if (parent.LeftNode == null)
-                    return parent.RightNode;
-                else if (parent.RightNode == null)
-                    return parent.LeftNode;
-
-                // node with two children: Get the inorder successor (smallest in the right subtree)  
-                parent.Data = MinValue(parent.RightNode);
-
-                // Delete the inorder successor  
-                parent.RightNode = Remove(parent.RightNode, parent.Data);
-            }
-
-            return parent;
-        }
-
-        private int MinValue(Node node)
-        {
-            int minv = node.Data;
-
-            while (node.LeftNode != null)
-            {
-                minv = node.LeftNode.Data;
-                node = node.LeftNode;
-            }
-
-            return minv;
-        }
-
-        private Node Find(int value, Node parent)
-        {
-            if (parent != null)
-            {
-                if (value == parent.Data) return parent;
-                if (value < parent.Data)
-                    return Find(value, parent.LeftNode);
-                else
-                    return Find(value, parent.RightNode);
-            }
-
-            return null;
+            Root = Remove(Root, value);
         }
 
         public int GetTreeDepth()
         {
-            return this.GetTreeDepth(this.Root);
-        }
-
-        private int GetTreeDepth(Node parent)
-        {
-            return parent == null ? 0 : Math.Max(GetTreeDepth(parent.LeftNode), GetTreeDepth(parent.RightNode)) + 1;
+            return GetTreeDepth(Root);
         }
 
         public void TraversePreOrder(Node parent)
@@ -162,19 +91,82 @@ namespace DiscreteMath.Set
         {
             return TraverseInOrderAndReturn(Root);
         }
-        
+
         public int[] TraverseInOrderAndReturn(Node parent)
         {
             var array = new int[0];
             if (parent != null)
             {
                 var valuesLeft = TraverseInOrderAndReturn(parent.LeftNode);
-                var parentValue = new int [] {parent.Data};
+                var parentValue = new[] {parent.Data};
                 var valuesRight = TraverseInOrderAndReturn(parent.RightNode);
                 array = valuesLeft.Concat(parentValue).Concat(valuesRight).ToArray();
             }
 
             return array;
+        }
+
+        private Node Remove(Node parent, int key)
+        {
+            if (parent == null) return parent;
+
+            if (key < parent.Data)
+            {
+                parent.LeftNode = Remove(parent.LeftNode, key);
+            }
+            else if (key > parent.Data)
+            {
+                parent.RightNode = Remove(parent.RightNode, key);
+            }
+
+            // if value is same as parent's value, then this is the node to be deleted  
+            else
+            {
+                // node with only one child or no child  
+                if (parent.LeftNode == null)
+                    return parent.RightNode;
+                if (parent.RightNode == null)
+                    return parent.LeftNode;
+
+                // node with two children: Get the inorder successor (smallest in the right subtree)  
+                parent.Data = MinValue(parent.RightNode);
+
+                // Delete the inorder successor  
+                parent.RightNode = Remove(parent.RightNode, parent.Data);
+            }
+
+            return parent;
+        }
+
+        private int MinValue(Node node)
+        {
+            var minv = node.Data;
+
+            while (node.LeftNode != null)
+            {
+                minv = node.LeftNode.Data;
+                node = node.LeftNode;
+            }
+
+            return minv;
+        }
+
+        private Node Find(int value, Node parent)
+        {
+            if (parent != null)
+            {
+                if (value == parent.Data) return parent;
+                if (value < parent.Data)
+                    return Find(value, parent.LeftNode);
+                return Find(value, parent.RightNode);
+            }
+
+            return null;
+        }
+
+        private int GetTreeDepth(Node parent)
+        {
+            return parent == null ? 0 : Math.Max(GetTreeDepth(parent.LeftNode), GetTreeDepth(parent.RightNode)) + 1;
         }
     }
 }

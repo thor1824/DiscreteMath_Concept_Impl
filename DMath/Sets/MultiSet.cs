@@ -1,19 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using DiscreteMath.Set;
 
-namespace DiscreteMath.MultiSet
+namespace DMath.Sets
 {
-    
-
-    public class MultiSet
+    public class MultiSet : IMultiSet
     {
+        private readonly Dictionary<int, int> _dic = new();
+
         public MultiSet(int[] values)
         {
             AddRange(values);
         }
 
-        private Dictionary<int, int> _dic = new();
         public void Add(int value)
         {
             if (_dic.ContainsKey(value))
@@ -21,15 +19,13 @@ namespace DiscreteMath.MultiSet
                 _dic[value] = _dic[value] + 1;
                 return;
             }
+
             _dic.Add(value, 1);
         }
 
         public void AddRange(int[] values)
         {
-            foreach (var value in values)
-            {
-                Add(value);   
-            }
+            foreach (var value in values) Add(value);
         }
 
         public override string ToString()
@@ -39,12 +35,12 @@ namespace DiscreteMath.MultiSet
             const string separator = ", ";
             var valueString = "";
             var members = ToArray();
-            
+
             foreach (var (value, index) in members.Select((item, index) => (item, index)))
             {
                 if (index == members.Length - 1)
                 {
-                    valueString += value;        
+                    valueString += value;
                     continue;
                 }
 
@@ -58,12 +54,8 @@ namespace DiscreteMath.MultiSet
         {
             var list = new List<int>();
             foreach (var key in _dic.Keys)
-            {
-                for (int i = 0; i < _dic[key]; i++)
-                {
+                for (var i = 0; i < _dic[key]; i++)
                     list.Add(key);
-                }
-            }
 
             return list.ToArray();
         }
@@ -83,16 +75,12 @@ namespace DiscreteMath.MultiSet
             var intersect = new List<int>();
             foreach (var key in _dic.Keys)
             {
-                if (!(IsMember(key) && setB.IsMember(key)))
-                {
-                    continue;
-                }
+                if (!(IsMember(key) && setB.IsMember(key))) continue;
 
-                var instances = _dic[key] >= setB.InstancesOfMember(_dic[key]) ? _dic[key] :  setB.InstancesOfMember(_dic[key]);
-                for (var i = 0; i < instances; i++)
-                {
-                    intersect.Add(key);  
-                }
+                var instances = _dic[key] >= setB.InstancesOfMember(_dic[key])
+                    ? _dic[key]
+                    : setB.InstancesOfMember(_dic[key]);
+                for (var i = 0; i < instances; i++) intersect.Add(key);
             }
 
             return new MultiSet(intersect.ToArray());

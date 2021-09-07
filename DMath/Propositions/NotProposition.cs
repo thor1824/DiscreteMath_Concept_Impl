@@ -3,7 +3,7 @@ using DMath.Propositions.Abstracts;
 
 namespace DMath.Propositions
 {
-    public class NotProposition: BaseProposition
+    public class NotProposition : BaseProposition
     {
         private readonly BaseProposition _proposition;
 
@@ -14,7 +14,6 @@ namespace DMath.Propositions
 
         internal override void SetVariableState(IDictionary<string, bool> variableToValueMap)
         {
-            
             _proposition.SetVariableState(variableToValueMap);
         }
 
@@ -37,12 +36,12 @@ namespace DMath.Propositions
         {
             return _proposition.GetDefinedVariables();
         }
-        
+
         public override string ToStringVariable()
         {
             return $"!{_proposition.ToStringVariable()}";
         }
-        
+
         public override string ToString()
         {
             return $"!{_proposition}";

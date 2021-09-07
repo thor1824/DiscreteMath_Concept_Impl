@@ -3,8 +3,9 @@
 namespace DMath.Propositions
 {
     public class XorProposition : BinaryProposition
-    {   
-        public XorProposition(BaseProposition leftProposition, BaseProposition rightProposition) : base(leftProposition, rightProposition)
+    {
+        public XorProposition(BaseProposition leftProposition, BaseProposition rightProposition) : base(leftProposition,
+            rightProposition)
         {
         }
 
@@ -12,20 +13,22 @@ namespace DMath.Propositions
         {
             return LeftProposition.CalculateValue() ^ RightProposition.CalculateValue();
         }
-        
+
         public override string ToString()
         {
             return $"({LeftProposition} XOR {RightProposition})";
         }
+
         public override string ToStringVariable()
         {
             return $"({LeftProposition.ToStringVariable()} XOR {RightProposition.ToStringVariable()})";
         }
     }
-    
+
     public class EquivalenceProposition : BinaryProposition
-    {   
-        public EquivalenceProposition(BaseProposition leftProposition, BaseProposition rightProposition) : base(leftProposition, rightProposition)
+    {
+        public EquivalenceProposition(BaseProposition leftProposition, BaseProposition rightProposition) : base(
+            leftProposition, rightProposition)
         {
         }
 
@@ -33,12 +36,12 @@ namespace DMath.Propositions
         {
             return LeftProposition.CalculateValue() == RightProposition.CalculateValue();
         }
-        
+
         public override string ToString()
         {
             return $"({LeftProposition} <=> {RightProposition})";
         }
-        
+
         public override string ToStringVariable()
         {
             return $"({LeftProposition.ToStringVariable()} <=> {RightProposition.ToStringVariable()})";

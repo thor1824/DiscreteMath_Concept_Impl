@@ -13,7 +13,7 @@ namespace DMath.Propositions.Abstracts
         internal abstract void SetVariableState(IDictionary<string, bool> variableToValueMap);
         internal abstract bool CalculateValue();
         public abstract bool IsTautology();
-        
+
         public abstract bool IsSatisfiable();
         public abstract string[] GetDefinedVariables();
 

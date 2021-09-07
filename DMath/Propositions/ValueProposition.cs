@@ -3,22 +3,22 @@ using DMath.Propositions.Abstracts;
 
 namespace DMath.Propositions
 {
-    public class ValueProposition: BaseProposition
+    public class ValueProposition : BaseProposition
     {
-        private readonly string _variableName; 
-        private bool _variableValue; 
+        private readonly string _variableName;
+        private bool _variableValue;
 
         public ValueProposition(string variableName)
         {
             _variableName = variableName;
         }
 
-        internal  override void SetVariableState(IDictionary<string, bool> variableToValueMap)
+        internal override void SetVariableState(IDictionary<string, bool> variableToValueMap)
         {
             _variableValue = variableToValueMap.ContainsKey(_variableName) && variableToValueMap[_variableName];
         }
 
-        internal  override bool CalculateValue()
+        internal override bool CalculateValue()
         {
             return _variableValue;
         }

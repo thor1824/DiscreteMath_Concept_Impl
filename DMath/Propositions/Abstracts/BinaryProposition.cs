@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace DMath.Propositions.Abstracts
 {
-    public abstract class BinaryProposition: BaseProposition
+    public abstract class BinaryProposition : BaseProposition
     {
         protected readonly BaseProposition LeftProposition;
         protected readonly BaseProposition RightProposition;
@@ -45,12 +45,9 @@ namespace DMath.Propositions.Abstracts
             var start = false;
             foreach (var variable in variables)
             {
-                for (int i = 0; i < rows; i++)
+                for (var i = 0; i < rows; i++)
                 {
-                    if (truthTable.Count - 1 < i)
-                    {
-                        truthTable.Add(new Dictionary<string, bool>());
-                    }
+                    if (truthTable.Count - 1 < i) truthTable.Add(new Dictionary<string, bool>());
 
                     if (i == 0)
                     {
@@ -64,10 +61,7 @@ namespace DMath.Propositions.Abstracts
                         continue;
                     }
 
-                    if (i % interval == 0)
-                    {
-                        start = !start;
-                    }
+                    if (i % interval == 0) start = !start;
 
                     truthTable[i].Add(variable, start);
                 }
@@ -85,6 +79,5 @@ namespace DMath.Propositions.Abstracts
             var rightVariables = RightProposition.GetDefinedVariables();
             return leftVariables.Concat(rightVariables).ToArray();
         }
-
     }
 }
